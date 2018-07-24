@@ -40,6 +40,8 @@ purpose_categories = c("Communications",
                        "Technology Demonstration",
                        "Space Observation")
 
+orbit_classes = c("LEO", "MEO", "GEO", "Elliptical")
+
 #functions to find list of unique instances within a column separated by /
 list_sep = function(column){
   column %>% 
@@ -162,6 +164,70 @@ shinyServer(function(input, output) {
         options=list(title="Purposes and Users",
                      isStacked = TRUE,
                      legend="bottom",
+                     width="auto",
+                     height="auto")
+      )
+  })
+  output$orbits = renderGvis({
+    #data frame for orbit chart
+    data_orbit = data_frame(
+      names = orbit_classes
+    )
+    
+    Communications_pos = grep("Communications", temp()$Purpose)
+    Earth_Observation_pos = grep("Earth Observation", temp()$Purpose)
+    Technology_Development_pos = grep("Technology Development", temp()$Purpose)
+    Navigation_pos = grep("Navigation", temp()$Purpose)
+    Space_Science_pos = grep("Space Science", temp()$Purpose)
+    Earth_Science_pos = grep("Earth Science", temp()$Purpose)
+    Technology_Demonstration_pos = grep("Technology Demonstration", temp()$Purpose)
+    Space_Observation_pos = grep("Space Observation", temp()$Purpose)
+    
+    data_orbit = data_orbit %>% 
+      mutate(
+        pos = sapply(orbit_classes, function(x){
+          grep(x, temp()$`Class of Orbit`)
+        }),
+        Communications = sapply(pos, function(x){
+          length(intersect(x, Communications_pos))
+        }),
+        Earth_Observation = sapply(pos, function(x){
+          length(intersect(x, Earth_Observation_pos))
+        }),
+        Technology_Development = sapply(pos, function(x){
+          length(intersect(x, Technology_Development_pos))
+        }),
+        Navigation = sapply(pos, function(x){
+          length(intersect(x, Navigation_pos))
+        }),
+        Space_Science = sapply(pos, function(x){
+          length(intersect(x, Space_Science_pos))
+        }),
+        Earth_Science = sapply(pos, function(x){
+          length(intersect(x, Earth_Science_pos))
+        }),
+        Technology_Demonstration = sapply(pos, function(x){
+          length(intersect(x, Technology_Demonstration_pos))
+        }),
+        Space_Observation = sapply(pos, function(x){
+          length(intersect(x, Space_Observation_pos))
+        })
+      )
+    
+    data_orbit %>% 
+      gvisColumnChart(
+        xvar = "names",
+        yvar = c(
+          "Communications",
+          "Earth_Observation",
+          "Technology_Development",
+          "Navigation",
+          "Space_Science",
+          "Earth_Science",
+          "Technology_Demonstration",
+          "Space_Observation"
+        ),
+        options=list(title="Orbits and Purposes",
                      width="auto",
                      height="auto")
       )

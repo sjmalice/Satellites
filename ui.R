@@ -16,7 +16,8 @@ shinyUI(dashboardPage(
     sidebarUserPanel("Simon Joyce"),
     sidebarMenu(
       menuItem("Map", tabName = 'map', icon = icon('map')),
-      menuItem("Purposes", tabName = 'bar', icon = icon('bar'))
+      menuItem("Purposes", tabName = 'bar', icon = icon('chart-bar')),
+      menuItem("Orbits", tabName = 'orbits', icon = icon('globe'))
       ),
     fluidRow(
         sliderInput(
@@ -49,7 +50,11 @@ shinyUI(dashboardPage(
               fluidRow(
                 box(htmlOutput("bar"), width = 12)
               )
-      )
+      ),
+      tabItem(tabName = "orbits",
+              fluidRow(
+                box(htmlOutput('orbits'), width = 12)
+              ))
     )
   )
 ))
