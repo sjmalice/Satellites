@@ -50,34 +50,6 @@ list_sep = function(column){
     unique()
 }
 
-#function to build data frames for gvis
-
-fill_table = function(list, column){
-  d_f = data.frame(
-    names = list
-  )
-  
-  d_f = d_f %>% 
-    mutate(
-      pos = sapply(list, function(x){
-        grep(x, column)
-      }),
-      Total = lengths(pos),
-      Civil = sapply(pos, function(x){
-        length(intersect(x, User_pos$civ_pos))
-      }),
-      Commercial = sapply(pos, function(x){
-        length(intersect(x, User_pos$com_pos))
-      }),
-      Military = sapply(pos, function(x){
-        length(intersect(x, User_pos$mil_pos))
-      }),
-      Government = sapply(pos, function(x){
-        length(intersect(x, User_pos$gov_pos))
-      })
-    )
-}
-
 shinyServer(function(input, output) {
   #filter satellites by users selected
   user_slice = reactive({
@@ -96,14 +68,17 @@ shinyServer(function(input, output) {
     
     distinct_countries = list_sep(temp()$`Country of Operator/Owner`)
     
-    data_map = data.frame(
-      names = distinct_countries,
-      Total = lengths(
+    data_map = data.frame(names = distinct_countries)
+    
+    data_map$Total = if (length(distinct_countries)< 2){
+      nrow(temp())
+    } else{
+      lengths(
         sapply(distinct_countries, function(x){
           grep(x, temp()$`Country of Operator/Owner`)
         })
       )
-    )
+    }
     
     map_options = list(
       region = "world",
@@ -228,6 +203,7 @@ shinyServer(function(input, output) {
           "Space_Observation"
         ),
         options=list(title="Orbits and Purposes",
+                     legend="bottom",
                      width="auto",
                      height="auto")
       )

@@ -1,0 +1,13 @@
+name: Satellites
+title: Satellites
+username:
+account: simonjoyce
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 386744
+bundleId: 1496259
+url: https://simonjoyce.shinyapps.io/Satellites/
+when: 1532397602.60258
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .directory|.RData|README.md
