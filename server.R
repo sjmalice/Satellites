@@ -143,6 +143,27 @@ shinyServer(function(input, output) {
                      height="auto")
       )
   })
+  output$orbits1 = renderGvis({
+    my_options <- list(width="auto", height="auto",
+                       legend="bottom",
+                       title="Satellite Scatter Plot",
+                       hAxis="{title:'Perigee (KM)'}",
+                       vAxis="{title:'Apogee (KM)'}",
+                       explorer =  "{actions:['dragToZoom', 'rightClickToReset']}")
+    
+    temp() %>% 
+      select(`Apogee (Kilometers)`) %>% 
+      mutate(LEO = ifelse(temp()$`Class of Orbit` == "LEO", temp()$`Perigee (Kilometers)`, NA),
+             LEO.html.tooltip = temp()$`Official Name of Satellite`,
+             MEO = ifelse(temp()$`Class of Orbit` == "MEO", temp()$`Perigee (Kilometers)`, NA),
+             MEO.html.tooltip = temp()$`Official Name of Satellite`,
+             GEO = ifelse(temp()$`Class of Orbit` == "GEO", temp()$`Perigee (Kilometers)`, NA),
+             GEO.html.tooltip = temp()$`Official Name of Satellite`,
+             Elliptical = ifelse(temp()$`Class of Orbit` == "Elliptical", temp()$`Perigee (Kilometers)`, NA),
+             Elliptical.html.tooltip = temp()$`Official Name of Satellite`
+      ) %>% 
+      gvisScatterChart(options = my_options)
+  })
   output$orbits = renderGvis({
     #data frame for orbit chart
     data_orbit = data_frame(

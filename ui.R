@@ -18,7 +18,7 @@ shinyUI(dashboardPage(
     sidebarMenu(
       menuItem("Intro", tabName = "intro", icon = icon("file")),
       menuItem("Map", tabName = 'map', icon = icon('map')),
-      menuItem("Purposes", tabName = 'bar', icon = icon('chart-bar')),
+      menuItem("Purposes", tabName = 'bar', icon = icon('wrench')),
       menuItem("Orbits", tabName = 'orbits', icon = icon('globe'))
       ),
     fluidRow(
@@ -27,7 +27,8 @@ shinyUI(dashboardPage(
           label = h3("Launch Year Range"),
           min = 1990, 
           max = 2016,
-          value = c(1974, 2016)
+          value = c(1974, 2016),
+          animate = animationOptions(interval = 2000)
           )
       ),
     fluidRow(
@@ -53,10 +54,12 @@ shinyUI(dashboardPage(
             tags$p("What do we use the satellites for and how many do we use for each purpose?"),
             tags$p("What kind of satellites occupy different kinds of orbits?"),
             tags$p("Answers to these questions, and more, lie within this Shiny App."),
-            tags$p("Find filters for year of launch and operating body in the side-panel"),
+            tags$p("Find filters for year of launch and operating body in the side-panel."),
             tags$a(href = 'https://github.com/sjmalice/Satellites', "Github link for this Shiny App."),
-            width = 12
-          )
+            width = 6
+          ),
+          box(tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/8/8d/GPS_Satellite_NASA_art-iif.jpg", width = "300px", height = "300px")),
+          width = 6
         )
       ),
       tabItem(tabName = "map",
@@ -77,14 +80,15 @@ shinyUI(dashboardPage(
       ),
       tabItem(tabName = "orbits",
               fluidRow(
-                box(tags$h1("Satellites by Orbit Type and Purpose"),
-                    tags$p("LEO : Low Earth Orbit"),
-                    tags$p("MEO : Medium Earth Orbit"),
-                    tags$p("GEO : Geosynchronous Earth Orbit"),
-                    width = 12)
-              ),
+                  box(tags$h1("Satellites by Orbit Type and Purpose"),
+                      tags$p("LEO : Low Earth Orbit, MEO : Medium Earth Orbit, GEO : Geosynchronous Earth Orbit"),
+                      width = 12)
+                ),
               fluidRow(
                 box(htmlOutput('orbits'), width = 12)
+              ),
+              fluidRow(
+                box(htmlOutput("orbits1"), width = 12)
               ))
     )
   )

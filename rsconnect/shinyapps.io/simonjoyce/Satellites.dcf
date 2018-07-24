@@ -5,9 +5,9 @@ account: simonjoyce
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 386744
-bundleId: 1496259
+bundleId: 1497902
 url: https://simonjoyce.shinyapps.io/Satellites/
-when: 1532397602.60258
+when: 1532467992.43471
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: .directory|.RData|README.md
+ignoredFiles: .directory|.RData

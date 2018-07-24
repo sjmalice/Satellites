@@ -1,4 +1,4 @@
-Satellites Shiny app
+# Satellites Shiny app
 
 [Link to Shiny App on shinyapp.io](https://simonjoyce.shinyapps.io/Satellites/)
 
