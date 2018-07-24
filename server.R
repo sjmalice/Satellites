@@ -92,9 +92,15 @@ shinyServer(function(input, output) {
   
   output$map <- renderGvis({
     
-    data_map = fill_table(
-      list_sep(temp()$`Country of Operator/Owner`),
-      temp()$`Country of Operator/Owner`
+    distinct_countries = list_sep(temp()$`Country of Operator/Owner`)
+    
+    data_map = data.frame(
+      names = distinct_countries,
+      Total = lengths(
+        sapply(distinct_countries, function(x){
+          grep(x, temp()$`Country of Operator/Owner`)
+        })
+      )
     )
     
     map_options = list(
@@ -115,10 +121,38 @@ shinyServer(function(input, output) {
   })
   output$bar = renderGvis({
     #data frame for bar chart
-    data_bar = fill_table(
-      intersect(list_sep(temp()$Purpose), purpose_categories),
-      temp()$Purpose
+    distinct_purposes = intersect(
+      list_sep(temp()$Purpose),
+      purpose_categories
     )
+    data_bar = data.frame(
+      names = distinct_purposes
+    )
+    
+    civ_pos = grep("Civil", temp()$Users)
+    com_pos = grep("Commercial", temp()$Users)
+    mil_pos = grep("Military", temp()$Users)
+    gov_pos = grep("Government", temp()$Users)
+    
+    data_bar = data_bar %>% 
+      mutate(
+        pos = sapply(distinct_purposes, function(x){
+          grep(x, temp()$Purpose)
+        }),
+        Total = lengths(pos),
+        Civil = sapply(pos, function(x){
+          length(intersect(x, civ_pos))
+        }),
+        Commercial = sapply(pos, function(x){
+          length(intersect(x, com_pos))
+        }),
+        Military = sapply(pos, function(x){
+          length(intersect(x, mil_pos))
+        }),
+        Government = sapply(pos, function(x){
+          length(intersect(x, gov_pos))
+        })
+      )
 
     data_bar %>%
       arrange(desc(Total)) %>%
