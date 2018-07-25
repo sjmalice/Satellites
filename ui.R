@@ -32,7 +32,7 @@ shinyUI(dashboardPage(
           )
       ),
     fluidRow(
-      checkboxGroupInput("users", label = h3("Users"), 
+      checkboxGroupInput("users", label = h3("Operating Body"), 
                          choices = list("Civil" = 1,
                                         "Commercial" = 2,
                                         "Military" = 3,

@@ -145,10 +145,9 @@ shinyServer(function(input, output) {
   })
   output$orbits1 = renderGvis({
     my_options <- list(width="auto", height="auto",
-                       legend="bottom",
                        title="Satellite Scatter Plot",
-                       hAxis="{title:'Perigee (KM)'}",
-                       vAxis="{title:'Apogee (KM)'}",
+                       hAxis="{title:'Apogee (KM)'}",
+                       vAxis="{title:'Perigee (KM)'}",
                        explorer =  "{actions:['dragToZoom', 'rightClickToReset']}")
     
     temp() %>% 
